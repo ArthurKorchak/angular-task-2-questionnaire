@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+
 import { Question } from '../models/question.model';
 import { MainActions } from './main.actions';
 
@@ -13,7 +14,13 @@ const initialState: AppState = {
 export const mainReducer = createReducer(
   initialState,
 
-  on(MainActions.addQuestion, (state, { question }) => ({ ...state, questions: [question, ...state.questions] })),
+  on(MainActions.addQuestion, (state, { question }) => {
+    question.id = Date.now() + (~~(Math.random() * 1e8)).toString(16);
+
+    console.log(question.id);
+    
+    return { ...state, questions: [question, ...state.questions] };
+  }),
   
   on(MainActions.editQuestion, (state, { question }) => {
     const questionIdx = state.questions.findIndex(item => item.id === question.id);

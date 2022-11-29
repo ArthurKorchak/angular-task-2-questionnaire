@@ -1,0 +1,38 @@
+<mat-card class="card">
+  <mat-card-content>
+    <div class="answered-flag" *ngIf="question.answer">✓ answered</div>
+    <p>Question: {{ question.text }}</p>
+    <p>Type of question: {{ question.type }}</p>
+
+    <div class="single" *ngIf="question.type === 'single'">
+      <mat-radio-group
+        color="primary">
+        <mat-radio-button 
+          *ngFor="let variant of question.answerVariants" 
+          class="single-variants" 
+          [value]="variant" 
+          checked="{{ !!question.answer?.includes(variant) }}" 
+          disabled>
+          {{ variant }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="multiple" *ngIf="question.type === 'multiple'">
+      <mat-checkbox 
+        *ngFor="let variant of question.answerVariants" 
+        class="multiple-variants" 
+        color="primary" 
+        checked="{{ !!question.answer?.includes(variant) }}"
+        disabled>
+        {{ variant }}
+      </mat-checkbox>
+    </div>
+
+    <div class="open" *ngIf="question.type === 'open'">
+      <p class="answer-text">Answer: {{ question.answer && question.answer[0] }}</p>
+    </div>
+
+    <p>Date of create: {{ createDate.toLocaleString() }}</p>
+  </mat-card-content>
+</mat-card>

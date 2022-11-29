@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class _Service {
+export class LocalStorageService {
 
+  public readLS() {
   
+  };
+
+  public updateLS() {
+
+  };
 };
