@@ -16,12 +16,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { mainReducer } from './_core/state/main.reducer';
-import { QuestionCardComponent } from './components/question-card/question-card.component';
+import { QuestionCardComponent } from './question-management/question-card/question-card.component';
+import { QuestionsComponent } from './question-management/questions/questions.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuestionCardComponent
+    QuestionCardComponent,
+    QuestionsComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

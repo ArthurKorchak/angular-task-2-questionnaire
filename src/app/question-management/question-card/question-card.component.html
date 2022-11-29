@@ -1,6 +1,7 @@
-<mat-card class="card">
+<mat-card class="card" *ngIf="question" id="{{ question.id }}">
   <mat-card-content>
     <div class="answered-flag" *ngIf="question.answer">✓ answered</div>
+    <div class="answered-flag no-answered" *ngIf="!question.answer">⧖ waiting for answer</div>
     <p>Question: {{ question.text }}</p>
     <p>Type of question: {{ question.type }}</p>
 
@@ -33,6 +34,6 @@
       <p class="answer-text">Answer: {{ question.answer && question.answer[0] }}</p>
     </div>
 
-    <p>Date of create: {{ createDate.toLocaleString() }}</p>
+    <p>Date of create: {{ dateFormatter(question.createDate) }}</p>
   </mat-card-content>
 </mat-card>

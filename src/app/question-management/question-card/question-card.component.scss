@@ -22,6 +22,7 @@ mat-radio-group {
   position: absolute;
   display: flex;
   justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   width: 100%;
@@ -33,4 +34,8 @@ mat-radio-group {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   margin: 0;
+}
+
+.no-answered {
+  background-color: rgb(254, 255, 166);
 }
