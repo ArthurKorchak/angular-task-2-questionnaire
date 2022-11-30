@@ -1,0 +1,52 @@
+<mat-card class="card" *ngIf="question && questionForm" id="{{ question.id }}">
+  <mat-card-content>
+    <p>Question: {{ question.text }}</p>
+    <p>Type of question: {{ question.type }}</p>
+    <form #myForm="ngForm" [formGroup]="questionForm" (ngSubmit)="answerHandle(myForm)">
+
+      <div class="single" *ngIf="question.type === 'single'">
+        <mat-radio-group formControlName="single" color="primary">
+          <mat-radio-button 
+            *ngFor="let variant of question.answerVariants" 
+            class="single-variants" 
+            [value]="variant"
+            checked="{{ !!question.answer?.includes(variant) }}" 
+            disabled="{{ isBlocked }}">
+            {{ variant }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="multiple" formArrayName="multiple" *ngIf="question.type === 'multiple'">
+        <ng-container *ngFor="let variant of question.answerVariants; let i = index">
+          <mat-checkbox 
+            [formControlName]="i"
+            class="multiple-variants" 
+            color="primary"
+            checked="{{ !!question.answer?.includes(variant) }}">
+            {{ variant }}
+          </mat-checkbox>
+        </ng-container>
+      </div>
+
+      <div class="open-in" *ngIf="question.type === 'open' && !question.answer">
+        <input formControlName="open" type="text">
+      </div>
+
+      <div class="open-out" *ngIf="question.type === 'open' && question.answer">
+        <p class="answer-text">Answer: {{ question.answer[0] }}</p>
+      </div>
+
+      <div class="button" *ngIf="!question.answer">
+        <button type="submit" mat-raised-button color="primary" >Create an answer</button>
+      </div>
+
+      <div class="button" *ngIf="question.answer">
+        <button type="button" (click)="toUnansweredHandle()" mat-raised-button color="primary">Back to unanswered</button>
+      </div>
+
+    </form>
+    <p>Created: {{ dateFormatter(question.createDate) }}</p>
+    <p *ngIf="question.answerDate">Answered: {{ dateFormatter(question.answerDate) }}</p>
+  </mat-card-content>
+</mat-card>

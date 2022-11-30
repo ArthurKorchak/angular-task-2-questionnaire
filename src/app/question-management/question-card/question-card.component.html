@@ -30,10 +30,11 @@
       </mat-checkbox>
     </div>
 
-    <div class="open" *ngIf="question.type === 'open'">
-      <p class="answer-text">Answer: {{ question.answer && question.answer[0] }}</p>
+    <div class="open" *ngIf="question.type === 'open' && question.answer">
+      <p class="answer-text">Answer: {{ question.answer[0] }}</p>
     </div>
 
-    <p>Date of create: {{ dateFormatter(question.createDate) }}</p>
+    <p>Created: {{ dateFormatter(question.createDate) }}</p>
+    <p *ngIf="question.answerDate">Answered: {{ dateFormatter(question.answerDate) }}</p>
   </mat-card-content>
 </mat-card>

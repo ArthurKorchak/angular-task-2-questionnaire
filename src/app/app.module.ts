@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,13 +19,19 @@ import { mainReducer } from './_core/state/main.reducer';
 import { QuestionCardComponent } from './question-management/question-card/question-card.component';
 import { QuestionsComponent } from './question-management/questions/questions.component';
 import { HeaderComponent } from './components/header/header.component';
+import { SingleListComponent } from './questions-list/single-list/single-list.component';
+import { ListItemComponent } from './questions-list/list-item/list-item.component';
+import { QuestionsListComponent } from './questions-list/questions-list/questions-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionCardComponent,
     QuestionsComponent,
-    HeaderComponent
+    HeaderComponent,
+    SingleListComponent,
+    ListItemComponent,
+    QuestionsListComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +40,7 @@ import { HeaderComponent } from './components/header/header.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    // MatFormFieldControl,
     MatCardModule,
     MatInputModule,
     MatButtonModule,

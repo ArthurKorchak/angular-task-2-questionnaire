@@ -1,0 +1,11 @@
+.question-lists {
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+}
+
+.separator {
+  width: 2px;
+  height: auto;
+  background-color: rgb(192, 192, 192);
+}

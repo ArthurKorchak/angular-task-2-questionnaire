@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.multiple {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
