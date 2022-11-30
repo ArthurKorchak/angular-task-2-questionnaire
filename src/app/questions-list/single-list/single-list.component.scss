@@ -4,7 +4,8 @@
 
 ul {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   list-style: none;
   gap: 20px;
 }
