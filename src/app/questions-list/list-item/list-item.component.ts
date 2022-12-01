@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Question } from 'src/app/_core/models/question.model';
 
 @Component({
@@ -15,10 +15,6 @@ export class ListItemComponent implements OnInit {
   public questionForm: FormGroup | null = null;
 
   constructor(private fb: FormBuilder) { };
-
-  get open(): FormArray {
-    return this.questionForm?.get("open") as FormArray;
-  };
 
   public answerHandle(form: FormGroupDirective): void {
     const answer = [];
@@ -56,6 +52,14 @@ export class ListItemComponent implements OnInit {
     return new Date(date).toLocaleString();
   };
 
+  private includes<T>(question: Question): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (question.type !== 'multiple') return null
+      const value = control.value
+      return !(value.includes(true)) ? { notIncludes: true } : null;
+    };
+  };
+
   public ngOnInit(): void {
     if (this.question?.answerVariants) {
       this.questionForm = this.fb.group({
@@ -66,16 +70,10 @@ export class ListItemComponent implements OnInit {
               value: !!this.question?.answer?.includes(item),
               disabled: this.isBlocked
             };
-          })
+          }), this.includes(this.question)
         ),
         open: ''
       });
     };
-    this.questionForm?.setErrors({'incorrect': true});
-    console.log(this.questionForm?.valid)
   };
-
-  public ngDoCheck() {
-    
-  }
 };

@@ -1,7 +1,6 @@
 <mat-card class="card" *ngIf="question && questionForm" id="{{ question.id }}">
   <mat-card-content>
     <p>Question: {{ question.text }}</p>
-    <p>Type of question: {{ question.type }}</p>
     <form #myForm="ngForm" [formGroup]="questionForm" (ngSubmit)="answerHandle(myForm)">
 
       <div class="single" *ngIf="question.type === 'single'">
@@ -30,9 +29,8 @@
       </div>
 
       <div class="open-in" *ngIf="question.type === 'open' && !question.answer">
-        <p class="do-text">Input answer:</p>
         <mat-form-field class="question-input-wrapper" appearance="fill">
-          <mat-label>from 1 to 255 characters</mat-label>
+          <mat-label>Answer (from 1 to 255 characters)</mat-label>
           <textarea required class="question-input" matInput formControlName="open" maxlength="255"></textarea>
         </mat-form-field>
       </div>
@@ -50,7 +48,5 @@
       </div>
 
     </form>
-    <p>Created: {{ dateFormatter(question.createDate) }}</p>
-    <p *ngIf="question.answerDate">Answered: {{ dateFormatter(question.answerDate) }}</p>
   </mat-card-content>
 </mat-card>

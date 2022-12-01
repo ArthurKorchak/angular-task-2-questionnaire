@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.card {
+  width: 568px;
+}
+
 mat-radio-group {
   display: flex;
   flex-direction: column;
@@ -26,4 +30,9 @@ mat-radio-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
 }

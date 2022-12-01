@@ -1,7 +1,12 @@
 ul {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   list-style: none;
   gap: 20px;
+}
+
+li {
+  width: 600px;
 }
