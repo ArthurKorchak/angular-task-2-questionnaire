@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Question } from 'src/app/_core/models/question.model';
 
@@ -7,19 +7,14 @@ import { Question } from 'src/app/_core/models/question.model';
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss']
 })
-export class ListItemComponent {
+export class ListItemComponent implements OnInit {
 
   @Input() question: Question | null = null;
   @Input() isBlocked: boolean = false;
 
   public questionForm: FormGroup | null = null;
 
-  public form: FormGroup = new FormGroup({
-    single: new FormControl<string>(''),
-    multiple: new FormControl<boolean>(true),
-  });
-
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { };
 
   answerHandle(form: FormGroupDirective): void {
     const answer = [];
@@ -43,7 +38,7 @@ export class ListItemComponent {
     console.log(answeredQuestion);
   };
   
-  toUnansweredHandle() {
+  toUnansweredHandle(): void {
     const unansweredQuestion = {
       ...this.question,
       answer: null,
@@ -57,7 +52,7 @@ export class ListItemComponent {
     return new Date(date).toLocaleString();
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.question?.answerVariants) {
       this.questionForm = this.formBuilder.group({
         single: '',

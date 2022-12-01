@@ -22,6 +22,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SingleListComponent } from './questions-list/single-list/single-list.component';
 import { ListItemComponent } from './questions-list/list-item/list-item.component';
 import { QuestionsListComponent } from './questions-list/questions-list/questions-list.component';
+import { QuestionCreateComponent } from './question-create/question-create.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { QuestionsListComponent } from './questions-list/questions-list/question
     HeaderComponent,
     SingleListComponent,
     ListItemComponent,
-    QuestionsListComponent
+    QuestionsListComponent,
+    QuestionCreateComponent
   ],
   imports: [
     BrowserModule,
