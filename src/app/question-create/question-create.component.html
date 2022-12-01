@@ -1,11 +1,11 @@
-<form #myForm="ngForm" [formGroup]="questionCreateForm">
+<form #myForm="ngForm" [formGroup]="questionCreateForm" (ngSubmit)="submit(myForm)">
   <mat-card class="form-wrapper">
     <p class="title">Creating question form</p>
 
     <p class="do-text">Input question text:</p>
-    <mat-form-field class="question-input" appearance="fill">
-      <mat-label>Question text (from 1 to 255 characters)</mat-label>
-      <textarea matInput formControlName="text" required maxlength="255"></textarea>
+    <mat-form-field class="question-input-wrapper" appearance="fill">
+      <mat-label>Question text (from 1 to 500 characters)</mat-label>
+      <textarea class="question-input" matInput formControlName="text" required maxlength="500"></textarea>
     </mat-form-field>
 
     <p class="do-text">Select type of question:</p>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-question-create',
@@ -37,6 +37,10 @@ export class QuestionCreateComponent {
 
   removeVariant(event: any): void {
     this.answerVariants.removeAt(event.currentTarget.id);
+  };
+
+  submit(form: FormGroupDirective) {
+    console.log(form)
   };
 
   ngDoCheck(): void {
