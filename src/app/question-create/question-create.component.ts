@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-question-create',
@@ -9,7 +9,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective } fr
 export class QuestionCreateComponent {
 
   public questionCreateForm: FormGroup;
-  public isCreatingPossible = false;
 
   constructor(private fb: FormBuilder) {
     this.questionCreateForm = this.fb.group({
@@ -17,10 +16,6 @@ export class QuestionCreateComponent {
       type: null,
       answerVariants: this.fb.array(['', '']) ,
     });
-  };
-
-  get text(): FormArray {
-    return this.questionCreateForm.get("text") as FormArray;
   };
 
   get type(): FormArray {
@@ -31,21 +26,26 @@ export class QuestionCreateComponent {
     return this.questionCreateForm.get("answerVariants") as FormArray;
   };
 
-  addVariant(): void {      
+  public addVariant(): void {      
     this.answerVariants.push(new FormControl<string>(''));
+    this.questionCreateForm.setErrors({'incorrect': true});
   };
 
-  removeVariant(event: any): void {
+  public removeVariant(event: any): void {
     this.answerVariants.removeAt(event.currentTarget.id);
   };
 
-  submit(form: FormGroupDirective) {
-    console.log(form)
-  };
+  public submit({value}: FormGroupDirective): void {
+    const newQuestion = {
+      id: Date.now() + (~~(Math.random() * 1e8)).toString(16),
+      text: value.text,
+      type: value.type,
+      answerVariants: value.answerVariants,
+      answer: null,
+      createDate: Date.now(),
+      answerDate: null
+    };
 
-  ngDoCheck(): void {
-    (this.text.value && this.type.value && this.answerVariants.value[0] && this.answerVariants.value[1])
-      ? this.isCreatingPossible = true
-      : this.isCreatingPossible = false;
+    console.log(newQuestion)
   };
 };

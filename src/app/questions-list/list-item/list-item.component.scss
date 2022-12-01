@@ -8,8 +8,18 @@ mat-radio-group {
   gap: 10px;
 }
 
-button {
-  margin-top: 14px;
+.single, .multiple, .open-out {
+  margin-bottom: 14px;
+}
+
+.question-input-wrapper {
+  width: 100%;
+  padding: 0;
+}
+
+.question-input {
+  height: 100px;
+  padding: 0;
 }
 
 .multiple {

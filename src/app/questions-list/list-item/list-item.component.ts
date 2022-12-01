@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Question } from 'src/app/_core/models/question.model';
 
 @Component({
@@ -9,14 +9,18 @@ import { Question } from 'src/app/_core/models/question.model';
 })
 export class ListItemComponent implements OnInit {
 
-  @Input() question: Question | null = null;
-  @Input() isBlocked: boolean = false;
+  @Input() public question: Question | null = null;
+  @Input() public isBlocked: boolean = false;
 
   public questionForm: FormGroup | null = null;
 
-  constructor(private formBuilder: FormBuilder) { };
+  constructor(private fb: FormBuilder) { };
 
-  answerHandle(form: FormGroupDirective): void {
+  get open(): FormArray {
+    return this.questionForm?.get("open") as FormArray;
+  };
+
+  public answerHandle(form: FormGroupDirective): void {
     const answer = [];
 
     if (this.question?.type === 'single') {
@@ -38,7 +42,7 @@ export class ListItemComponent implements OnInit {
     console.log(answeredQuestion);
   };
   
-  toUnansweredHandle(): void {
+  public toUnansweredHandle(): void {
     const unansweredQuestion = {
       ...this.question,
       answer: null,
@@ -48,15 +52,15 @@ export class ListItemComponent implements OnInit {
     console.log(unansweredQuestion);
   };
   
-  dateFormatter(date: number): string {
+  public dateFormatter(date: number): string {
     return new Date(date).toLocaleString();
   };
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.question?.answerVariants) {
-      this.questionForm = this.formBuilder.group({
+      this.questionForm = this.fb.group({
         single: '',
-        multiple: this.formBuilder.array(
+        multiple: this.fb.array(
           this.question.answerVariants.map(item => {
             return {
               value: !!this.question?.answer?.includes(item),
@@ -67,5 +71,11 @@ export class ListItemComponent implements OnInit {
         open: ''
       });
     };
+    this.questionForm?.setErrors({'incorrect': true});
+    console.log(this.questionForm?.valid)
   };
+
+  public ngDoCheck() {
+    
+  }
 };

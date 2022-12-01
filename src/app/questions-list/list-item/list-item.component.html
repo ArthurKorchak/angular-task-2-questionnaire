@@ -5,8 +5,8 @@
     <form #myForm="ngForm" [formGroup]="questionForm" (ngSubmit)="answerHandle(myForm)">
 
       <div class="single" *ngIf="question.type === 'single'">
-        <mat-radio-group formControlName="single" color="primary">
-          <mat-radio-button 
+        <mat-radio-group required formControlName="single" color="primary">
+          <mat-radio-button
             *ngFor="let variant of question.answerVariants" 
             class="single-variants" 
             [value]="variant"
@@ -30,7 +30,11 @@
       </div>
 
       <div class="open-in" *ngIf="question.type === 'open' && !question.answer">
-        <input formControlName="open" type="text">
+        <p class="do-text">Input answer:</p>
+        <mat-form-field class="question-input-wrapper" appearance="fill">
+          <mat-label>from 1 to 255 characters</mat-label>
+          <textarea required class="question-input" matInput formControlName="open" maxlength="255"></textarea>
+        </mat-form-field>
       </div>
 
       <div class="open-out" *ngIf="question.type === 'open' && question.answer">
@@ -38,7 +42,7 @@
       </div>
 
       <div class="button" *ngIf="!question.answer">
-        <button type="submit" mat-raised-button color="primary" >Create an answer</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!questionForm.valid">Create an answer</button>
       </div>
 
       <div class="button" *ngIf="question.answer">
