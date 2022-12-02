@@ -2,8 +2,8 @@
   <mat-card-content>
     <div class="answered-flag" *ngIf="question.answer">✓ answered</div>
     <div class="answered-flag no-answered" *ngIf="!question.answer">⧖ waiting for answer</div>
-    <p>Question: {{ question.text }}</p>
-    <p>Type of question: {{ question.type }}</p>
-    <p>Created: {{ dateFormatter(question.createDate) }}</p>
+    <p>Question: <span>{{ question.text }}</span></p>
+    <p>Type of question: <span>{{ question.type }}</span></p>
+    <p>Created: <span>{{ dateFormatter(question.createDate) }}</span></p>
   </mat-card-content>
 </mat-card>

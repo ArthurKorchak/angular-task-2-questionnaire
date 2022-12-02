@@ -52,11 +52,11 @@ export class ListItemComponent implements OnInit {
     return new Date(date).toLocaleString();
   };
 
-  private includes<T>(question: Question): ValidatorFn {
+  private multipleValidator(question: Question): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (question.type !== 'multiple') return null
-      const value = control.value
-      return !(value.includes(true)) ? { notIncludes: true } : null;
+      if (question.type !== 'multiple') return null;
+      const value = control.value;
+      return !(value.includes(true)) ? { 'incorrect': true } : null;
     };
   };
 
@@ -70,7 +70,7 @@ export class ListItemComponent implements OnInit {
               value: !!this.question?.answer?.includes(item),
               disabled: this.isBlocked
             };
-          }), this.includes(this.question)
+          }), this.multipleValidator(this.question)
         ),
         open: ''
       });

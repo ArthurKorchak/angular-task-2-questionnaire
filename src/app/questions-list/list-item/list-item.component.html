@@ -1,6 +1,6 @@
 <mat-card class="card" *ngIf="question && questionForm" id="{{ question.id }}">
   <mat-card-content>
-    <p>Question: {{ question.text }}</p>
+    <p>Question: <span>{{ question.text }}</span></p>
     <form #myForm="ngForm" [formGroup]="questionForm" (ngSubmit)="answerHandle(myForm)">
 
       <div class="single" *ngIf="question.type === 'single'">
@@ -30,13 +30,13 @@
 
       <div class="open-in" *ngIf="question.type === 'open' && !question.answer">
         <mat-form-field class="question-input-wrapper" appearance="fill">
-          <mat-label>Answer (from 1 to 255 characters)</mat-label>
+          <mat-label>Answer text (from 1 to 255 characters)</mat-label>
           <textarea required class="question-input" matInput formControlName="open" maxlength="255"></textarea>
         </mat-form-field>
       </div>
 
       <div class="open-out" *ngIf="question.type === 'open' && question.answer">
-        <p class="answer-text">Answer: {{ question.answer[0] }}</p>
+        <p>Answer: <span>{{ question.answer[0] }}</span></p>
       </div>
 
       <div class="button" *ngIf="!question.answer">

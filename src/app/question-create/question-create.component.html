@@ -1,6 +1,6 @@
-<form #myForm="ngForm" [formGroup]="questionCreateForm" (ngSubmit)="submit(myForm)">
+<form #myForm="ngForm" [formGroup]="questionCreateForm" (ngSubmit)="submit(myForm)" *ngIf="questionCreateForm">
   <mat-card class="form-wrapper">
-    <p class="title">Creating question form</p>
+    <p class="title">Create a question</p>
 
     <p class="do-text">Input question text:</p>
     <mat-form-field class="question-input-wrapper" appearance="fill">
@@ -9,7 +9,7 @@
     </mat-form-field>
 
     <p class="do-text">Select type of question:</p>
-    <mat-radio-group required class="radio-wrapper" formControlName="type" color="primary">
+    <mat-radio-group class="radio-wrapper" formControlName="type" color="primary">
       <mat-radio-button value="single">single</mat-radio-button>
       <mat-radio-button value="multiple">multiple</mat-radio-button>
       <mat-radio-button value="open">open</mat-radio-button>
@@ -22,7 +22,6 @@
           <mat-form-field class="variant-input-wrapper" appearance="outline">
             <mat-label>Answer variant (from 1 to 50 characters)</mat-label>
             <input required class="variant-input" matInput [formControlName]="i" maxlength="50">
-            <mat-hint>Hint</mat-hint>
           </mat-form-field>
           <button 
             class="variant-remove-btn" 
