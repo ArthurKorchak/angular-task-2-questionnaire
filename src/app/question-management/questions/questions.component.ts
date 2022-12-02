@@ -1,18 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
-import { testData } from 'src/app/_core/models/question.model';
+import { Question } from 'src/app/_core/models/question.model';
+import { MainSelectors } from 'src/app/_core/state/main.selectors';
 
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.scss']
 })
-export class QuestionsComponent implements OnInit {
+export class QuestionsComponent implements OnInit, OnDestroy {
 
-  questions = testData
-  constructor() { }
+  private subscriptions = new Subscription();
+  public questions: Question[] = [];
 
-  ngOnInit(): void {
-  }
+  constructor(private store$: Store) { };
 
-}
+  public ngOnInit(): void {
+    this.subscriptions.add(this.store$.select(MainSelectors.questions).subscribe(resp => {
+      this.questions = resp;
+    }));
+  };
+
+  public ngOnDestroy(): void { 
+    this.subscriptions.unsubscribe();
+  };
+};

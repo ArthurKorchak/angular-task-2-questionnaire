@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Question } from '../models/question.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
 
-  public readLS() {
-  
+  public readLS(): Question[] | undefined {
+    const LS = localStorage.getItem('questions');
+    return LS ? JSON.parse(LS) : undefined;
   };
 
-  public updateLS() {
-
+  public writeLS(questions: Question[]): void {
+    localStorage.setItem('localStorage', JSON.stringify(questions));
   };
 };

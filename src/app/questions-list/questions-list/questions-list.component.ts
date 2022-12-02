@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { testData } from 'src/app/_core/models/question.model';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
+import { Question } from 'src/app/_core/models/question.model';
+import { MainSelectors } from 'src/app/_core/state/main.selectors';
 
 @Component({
   selector: 'app-questions-list',
@@ -8,11 +12,18 @@ import { testData } from 'src/app/_core/models/question.model';
 })
 export class QuestionsListComponent implements OnInit {
 
-  questions = testData
+  private subscriptions = new Subscription();
+  public questions: Question[] | null = null;
 
-  constructor() { }
+  constructor(private store$: Store) { };
 
-  ngOnInit(): void {
-  }
+  public ngOnInit(): void {
+    this.subscriptions.add(this.store$.select(MainSelectors.questions).subscribe(resp => {
+      this.questions = resp;
+    }));
+  };
 
-}
+  public ngOnDestroy(): void { 
+    this.subscriptions.unsubscribe();
+  };
+};

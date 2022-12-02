@@ -14,25 +14,20 @@ const initialState: AppState = {
 export const mainReducer = createReducer(
   initialState,
 
-  on(MainActions.addQuestion, (state, { question }) => {
-    question.id = Date.now() + (~~(Math.random() * 1e8)).toString(16);
-
-    console.log(question.id);
-    
-    return { ...state, questions: [question, ...state.questions] };
-  }),
+  on(MainActions.addQuestion, (state, { question }) =>
+    ({ ...state, questions: [...state.questions, question] })),
   
   on(MainActions.editQuestion, (state, { question }) => {
     const questionIdx = state.questions.findIndex(item => item.id === question.id);
-    const changedQuestions = state.questions;
+    if (questionIdx === -1) {
+      alert('Ooops... question not found');
+      return state;
+    };
+    const changedQuestions = [...state.questions];
     changedQuestions[questionIdx] = question;
-    
     return { ...state, questions: changedQuestions };
   }),
 
-  on(MainActions.removeQuestion, (state, { id }) => {
-    const changedQuestions = state.questions.filter(item => item.id !== id);
-
-    return { ...state, questions: changedQuestions };
-  }),
+  on(MainActions.removeQuestion, (state, { id }) =>
+    ({ ...state, questions: state.questions.filter(item => item.id !== id) })),
 );

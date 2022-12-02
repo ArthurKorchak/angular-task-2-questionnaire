@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
 import { Question } from 'src/app/_core/models/question.model';
+import { MainActions } from 'src/app/_core/state/main.actions';
 
 @Component({
   selector: 'app-list-item',
@@ -14,38 +17,38 @@ export class ListItemComponent implements OnInit {
 
   public questionForm: FormGroup | null = null;
 
-  constructor(private fb: FormBuilder) { };
+  constructor(private fb: FormBuilder, private store$: Store) { };
 
   public answerHandle(form: FormGroupDirective): void {
-    const answer = [];
-
-    if (this.question?.type === 'single') {
-      answer.push(form.value.single);
-    } else if (this.question?.type === 'multiple') {
-      form.value.multiple.forEach((item: boolean, idx: number) => {
-        if (item) answer.push(this.question?.answerVariants[idx]);
-      });
-    } else if (this.question?.type === 'open') {
-      answer.push(form.value.open);
+    if (this.question) {
+      const answer = [];
+      if (this.question?.type === 'single') {
+        answer.push(form.value.single);
+      } else if (this.question?.type === 'multiple') {
+        form.value.multiple.forEach((item: boolean, idx: number) => {
+          if (item) answer.push(this.question?.answerVariants[idx]);
+        });
+      } else if (this.question?.type === 'open') {
+        answer.push(form.value.open);
+      };
+      const answeredQuestion = {
+        ...this.question,
+        answer,
+        answerDate: Date.now()
+      };
+      this.store$.dispatch(MainActions.editQuestion({ question: answeredQuestion }));
     };
-
-    const answeredQuestion = {
-      ...this.question,
-      answer,
-      answerDate: Date.now()
-    };
-    
-    console.log(answeredQuestion);
   };
   
   public toUnansweredHandle(): void {
-    const unansweredQuestion = {
-      ...this.question,
-      answer: null,
-      answerDate: null
+    if (this.question) {
+      const unansweredQuestion = {
+        ...this.question,
+        answer: null,
+        answerDate: null
+      };
+      this.store$.dispatch(MainActions.editQuestion({ question: unansweredQuestion }));
     };
-
-    console.log(unansweredQuestion);
   };
   
   public dateFormatter(date: number): string {

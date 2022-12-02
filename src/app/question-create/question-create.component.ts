@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { MainActions } from '../_core/state/main.actions';
 
 @Component({
   selector: 'app-question-create',
@@ -10,7 +14,7 @@ export class QuestionCreateComponent {
 
   public questionCreateForm: FormGroup | null = null;
 
-  constructor(private fb: FormBuilder) { };
+  constructor(private router: Router, private fb: FormBuilder, private store$: Store) { };
 
   get type(): FormArray {
     return this.questionCreateForm?.get("type") as FormArray;
@@ -39,18 +43,17 @@ export class QuestionCreateComponent {
       createDate: Date.now(),
       answerDate: null
     };
-
-    console.log(newQuestion)
+    this.store$.dispatch(MainActions.addQuestion({ question: newQuestion }));
+    this.router.navigate(['management']);
   };
 
   private typeValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (this.answerVariants?.value.length === 0) {
+      if (this.answerVariants?.value.length === 0 && this.type?.value !== 'open') {
         this.answerVariants.push(new FormControl<string>(''));
         this.answerVariants.push(new FormControl<string>(''));
-        return { 'incorrect': true };
       };
-      if (this.type?.value === 'open') this.answerVariants?.clear();
+      if (this.type?.value === 'open' && this.answerVariants.value.length >= 2) this.answerVariants.clear();
       const value = control.value;
       return value ? null : { 'incorrect': true };
     };
@@ -59,12 +62,11 @@ export class QuestionCreateComponent {
   private answerValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
-      if (value?.length >= 2) this.type?.enable();
-      return value?.every((item: string) => item.length) ? null : { 'incorrect': true };
+      return value?.every((item: string) => item.length || !value.length) ? null : { 'incorrect': true };
     };
   };
 
-  ngOnInit() {
+  public ngOnInit() {
     this.questionCreateForm = this.fb.group({
       text: null,
       type: [null, this.typeValidator()],
