@@ -15,7 +15,7 @@ export class SingleListComponent {
 
   public filterByAnswer(questions: Question[]): Question[] {
     return this.listType === 'unanswered'
-      ? questions.filter(item => !item.answer)
-      : questions.filter(item => item.answer);
+      ? questions.filter(item => !item.answer).sort((a, b) => b.createDate - a.createDate)
+      : questions.filter(item => item.answer).sort((a, b) => (b.answerDate || 0) - (a.answerDate || 0));
   };
 };

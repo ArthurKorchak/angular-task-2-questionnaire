@@ -19,7 +19,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.subscriptions.add(this.store$.select(MainSelectors.questions).subscribe(resp => {
-      this.questions = resp;
+      this.questions = [...resp].sort((a, b) => b.createDate - a.createDate);
     }));
   };
 

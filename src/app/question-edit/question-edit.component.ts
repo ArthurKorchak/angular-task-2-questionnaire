@@ -16,7 +16,7 @@ import { MainSelectors } from '../_core/state/main.selectors';
 export class QuestionEditComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
-  private currentQuestion: Question | undefined = undefined
+  private currentQuestion: Question | undefined = undefined;
   public questionEditForm: FormGroup | null = null;
 
   constructor(

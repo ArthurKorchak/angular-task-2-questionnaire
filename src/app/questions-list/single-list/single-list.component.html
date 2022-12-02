@@ -2,7 +2,7 @@
   <div class="answered-flag" *ngIf="listType === 'answered'">✓ answered</div>
   <div class="answered-flag no-answered" *ngIf="listType !== 'answered'">⧖ waiting for answer</div>
   <div class="list">
-    <ul>
+    <ul *ngIf="questions.length > 0">
       <li *ngFor="let question of filterByAnswer(questions)">
         <app-list-item [question]="question" [isBlocked]="listType === 'answered'"></app-list-item>
       </li>
