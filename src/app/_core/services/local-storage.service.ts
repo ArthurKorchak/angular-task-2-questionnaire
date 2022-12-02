@@ -12,6 +12,6 @@ export class LocalStorageService {
   };
 
   public writeLS(questions: Question[]): void {
-    localStorage.setItem('localStorage', JSON.stringify(questions));
+    localStorage.setItem('questions', JSON.stringify(questions));
   };
 };

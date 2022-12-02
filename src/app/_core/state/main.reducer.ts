@@ -14,6 +14,8 @@ const initialState: AppState = {
 export const mainReducer = createReducer(
   initialState,
 
+  on(MainActions.setState, (_, { questions }) => ({ questions })),
+
   on(MainActions.addQuestion, (state, { question }) =>
     ({ ...state, questions: [...state.questions, question] })),
   
