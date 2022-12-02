@@ -1,28 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
+import { testData } from '../../_core/models/question.model'
+
 @Component({
-  selector: 'app-question-create',
-  templateUrl: './question-create.component.html',
-  styleUrls: ['./question-create.component.scss']
+  selector: 'app-question-edit',
+  templateUrl: './question-edit.component.html',
+  styleUrls: ['./question-edit.component.scss']
 })
-export class QuestionCreateComponent {
+export class QuestionEditComponent implements OnInit {
 
-  public questionCreateForm: FormGroup | null = null;
+  currentQuestion = testData.find(item => item.id === this.route.snapshot.params['id']);
 
-  constructor(private fb: FormBuilder) { };
+  public questionEditForm: FormGroup | null = null;
+
+  constructor(private route: ActivatedRoute, private fb: FormBuilder) { };
 
   get type(): FormArray {
-    return this.questionCreateForm?.get("type") as FormArray;
+    return this.questionEditForm?.get("type") as FormArray;
   };
 
   get answerVariants(): FormArray {
-    return this.questionCreateForm?.get("answerVariants") as FormArray;
+    return this.questionEditForm?.get("answerVariants") as FormArray;
   };
 
   public addVariant(): void {      
     this.answerVariants.push(new FormControl<string>(''));
-    this.questionCreateForm?.setErrors({ 'incorrect': true });
+    this.questionEditForm?.setErrors({ 'incorrect': true });
   };
 
   public removeVariant(event: any): void {
@@ -31,7 +36,7 @@ export class QuestionCreateComponent {
 
   public submit({value}: FormGroupDirective): void {
     const newQuestion = {
-      id: Date.now() + (~~(Math.random() * 1e8)).toString(16),
+      id: this.currentQuestion?.id,
       text: value.text,
       type: value.type,
       answerVariants: value.answerVariants.filter((item: string) => item),
@@ -64,11 +69,12 @@ export class QuestionCreateComponent {
     };
   };
 
-  ngOnInit() {
-    this.questionCreateForm = this.fb.group({
-      text: null,
-      type: [null, this.typeValidator()],
-      answerVariants: this.fb.array(['', ''], this.answerValidator())
+  ngOnInit(): void {
+    if (this.currentQuestion)
+    this.questionEditForm = this.fb.group({
+      text: this.currentQuestion?.text,
+      type: [this.currentQuestion?.type, this.typeValidator()],
+      answerVariants: this.fb.array(this.currentQuestion?.answerVariants, this.answerValidator())
     });
   };
 };

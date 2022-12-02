@@ -1,0 +1,46 @@
+<form #myForm="ngForm" [formGroup]="questionEditForm" (ngSubmit)="submit(myForm)" *ngIf="questionEditForm">
+  <mat-card class="form-wrapper">
+    <p class="title">Edit a question</p>
+
+    <p class="do-text">Input question text:</p>
+    <mat-form-field class="question-input-wrapper" appearance="fill">
+      <mat-label>Question text (from 1 to 500 characters)</mat-label>
+      <textarea required class="question-input" matInput formControlName="text" maxlength="500"></textarea>
+    </mat-form-field>
+
+    <p class="do-text">Select type of question:</p>
+    <mat-radio-group class="radio-wrapper" formControlName="type" color="primary">
+      <mat-radio-button value="single">single</mat-radio-button>
+      <mat-radio-button value="multiple">multiple</mat-radio-button>
+      <mat-radio-button value="open">open</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="answer-variants-list" formArrayName="answerVariants" *ngIf="type.value !== 'open'">
+      <p class="do-text">Input variants of answer:</p>
+      <ng-container *ngFor="let variant of answerVariants.controls; let i = index">
+        <div class="variant-input-group">
+          <mat-form-field class="variant-input-wrapper" appearance="outline">
+            <mat-label>Answer variant (from 1 to 50 characters)</mat-label>
+            <input required class="variant-input" matInput [formControlName]="i" maxlength="50">
+          </mat-form-field>
+          <button class="variant-remove-btn" mat-mini-fab color="basic" [id]="i" (click)="removeVariant($event)"
+            disabled="{{ 2 >= answerVariants.value.length }}">
+            <span class="symbol">-</span>
+          </button>
+        </div>
+      </ng-container>
+      <div class="variant-add">
+        <p>Add variant</p>
+        <button type="button" class="variant-add-btn" mat-mini-fab color="basic" (click)="addVariant()">+</button>
+      </div>
+    </div>
+
+    <div class="create-question-wrapper">
+      <button type="submit" class="create-question-btn" mat-raised-button color="primary"
+        [disabled]="!questionEditForm.valid">
+        Edit question
+      </button>
+    </div>
+
+  </mat-card>
+</form>

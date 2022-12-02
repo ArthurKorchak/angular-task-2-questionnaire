@@ -3,7 +3,15 @@
     <div class="answered-flag" *ngIf="question.answer">✓ answered</div>
     <div class="answered-flag no-answered" *ngIf="!question.answer">⧖ waiting for answer</div>
     <p>Question: <span>{{ question.text }}</span></p>
-    <p>Type of question: <span>{{ question.type }}</span></p>
-    <p>Created: <span>{{ dateFormatter(question.createDate) }}</span></p>
+    <div class="footer">
+      <div class="question-data">
+        <p>Type of question: <span>{{ question.type }}</span></p>
+        <p>Created: <span>{{ dateFormatter(question.createDate) }}</span></p>
+      </div>
+      <div class="buttons">
+        <button type="button" mat-raised-button color="primary" (click)="handleDelete()">Delete</button>
+        <button type="button" mat-raised-button color="primary" (click)="handleEdit()">Edit</button>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>
